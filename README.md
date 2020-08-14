@@ -80,7 +80,8 @@ $ NODE_ENV=production yarn run build
 Now, the content of `build` folder will be the extension ready to be submitted to the Chrome Web Store. Just take a look at the [official guide](https://developer.chrome.com/webstore/publish) to more infos about publishing.
 
 ## Secrets
-If you are developing an extension that talks with some API you probably are using different keys for testing and production. Is a good practice you not commit your secret keys and expose to anyone that have access to the repository.
+If you are developing an extension that talks with some API you probably are using different keys for testing and production. 
+Is a good practice you not commit your secret keys and expose to anyone that have access to the repository.
 
 To this task this boilerplate import the file `./secrets.<THE-NODE_ENV>.js` on your modules through the module named as `secrets`, so you can do things like this:
 
@@ -109,5 +110,16 @@ ApiCall({ key: secrets.key });
 3. Your PR must be single purpose. Resolve just one problem on your PR.
 4. Make sure to commit in the same style that we are committing until now on the project.
 
--------------
-Samuel Simões ~ [@samuelsimoes](https://twitter.com/samuelsimoes) ~ [Blog](http://blog.samuelsimoes.com/)
+## Authentication
+
+1. Go to https://stackoverflow.com/oauth/dialog?client_id=18550&scope=no_expiry&redirect_uri=https://stackoverflow.com/jobs?sort=y
+2. You will get access_token
+3. Here is the key: HK9bQzu7DH*mnss0knB4dw((
+4. Add a file src/secrets.development.js
+5. Add content 
+```js
+export default {
+    accessToken: <access_token>,
+    key: "HK9bQzu7DH*mnss0knB4dw(("
+};
+```

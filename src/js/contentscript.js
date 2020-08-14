@@ -1,3 +1,5 @@
+import secrets from '../secrets.development'
+
 console.log('SOJobs ...');
 
 async function getLocal(key) {
@@ -15,8 +17,11 @@ async function setLocal(key, value) {
     })
 }
 async function fetchRemoteTag(tag) {
-    let url = `https://api.stackexchange.com/2.2/tags/${encodeURIComponent(tag)}/synonyms?order=desc&sort=creation&site=stackoverflow`;
-    console.log(url);
+    // let url = `https://stackoverflow.com/oauth/dialog?client_id=18550&scope=no_expiry&redirect_uri=https://stackoverflow.com/jobs?sort=y`;
+    const accessToken = secrets.accessToken || '';
+    const key = secrets.key || '';
+    let url = `https://api.stackexchange.com/2.2/tags/${encodeURIComponent(tag)}/synonyms?order=desc&sort=creation&site=stackoverflow&access_token=${accessToken}&key=${key}`;
+    console.log(tag, url);
 
     try {
         const synonymsResponse = await fetch(url);
@@ -76,7 +81,7 @@ const start = async () => {
 const processData = async () => {
     const obj = await getLocal(null);
     // const allKeys = Object.keys(obj);
-    // console.log(allKeys);
+    console.log(obj);
 
     const tagsByCompany = {};
     for (const prop in obj) {
