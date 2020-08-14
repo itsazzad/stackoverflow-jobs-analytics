@@ -139,6 +139,17 @@ const processCompanyForTags = (data) => {
         objSorted[item[0]] = item[1]
     });
     console.log(objSorted);
+
+    let objCopied = JSON.parse(JSON.stringify(objSorted));
+
+    for (var key in objCopied) {
+        if (objCopied.hasOwnProperty(key)) {
+            if (objCopied[key] <= 1)
+                delete objCopied[key];
+        }
+    }
+    console.log("Cleaned", objCopied);
+
 };
 
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
