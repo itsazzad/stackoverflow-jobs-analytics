@@ -1,7 +1,4 @@
 import "../css/popup.css";
-import hello from "./popup/example";
-
-hello();
 
 const appendLog = (message) => {
     const li = document.createElement('li');
@@ -25,7 +22,6 @@ const appendLog = (message) => {
     }
     return queryParams;
   };
-  
   
   chrome.tabs.query({
     active: true,

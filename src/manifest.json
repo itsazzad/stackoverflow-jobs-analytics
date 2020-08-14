@@ -5,10 +5,18 @@
     "page": "background.html"
   },
   "page_action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon-34.png"
+    "default_icon": {
+      "34": "icon-34.png",
+      "128": "icon-128.png"
+    },
+    "default_title": "SOJobs",
+    "default_popup": "popup.html"
   },
+  "web_accessible_resources": [
+    "icon-128.png"
+  ],
   "icons": {
+    "34": "icon-34.png",
     "128": "icon-128.png"
   },
   "manifest_version": 2,

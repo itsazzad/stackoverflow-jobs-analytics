@@ -3,7 +3,6 @@ console.log('SOJobs ...');
 async function getLocal(key) {
     return new Promise(resolve => {
         chrome.storage.local.get(key, function (result) {
-            console.trace(key, result);
             resolve(result);
         })
     })
@@ -29,17 +28,16 @@ async function fetchRemoteTag(tag) {
     }
 }
 
-
 const refreshSynonyms = async (tag) => {
     const result = await getLocal([`tag-${tag}`]);
-    console.log(tag, result)
 
-    if (!result[tag]) {
+    if (!result[`tag-${tag}`]) {
         const synonyms = await fetchRemoteTag(tag)
         if (synonyms) {
             for (const element of synonyms.items) {
                 await setLocal(`tag-${element.from_tag}`, tag);
             }
+            await setLocal(`tag-${tag}`, tag);//Self tagging; Should be disabled in-order-to renew
         }
     }
 };
@@ -59,26 +57,24 @@ const start = async () => {
             tag = tag.innerText.trim();
             await refreshSynonyms(tag);
             const result = await getLocal([`tag-${tag}`]);
-            console.log(result);
 
-            if (result) {
-                data.tags.push(result);
+            if (result[`tag-${tag}`]) {
+                data.tags.push(result[`tag-${tag}`].replace('tag-',''));
             } else {
                 data.tags.push(tag);
             }
-            break;//////////
+            //break;//////////
         }
 
         let key = `jobid-${item.dataset.jobid}`;
         let value = JSON.stringify(data);
         await setLocal(key, value);
-        break;//////////
+        // break;//////////
     }
 };
 
 const processData = async () => {
     const obj = await getLocal(null);
-    // console.log(obj);
     // const allKeys = Object.keys(obj);
     // console.log(allKeys);
 
