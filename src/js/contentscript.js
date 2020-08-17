@@ -9,13 +9,15 @@ async function getLocal(key) {
         })
     })
 }
+
 async function setLocal(key, value) {
     return new Promise(resolve => {
-        chrome.storage.local.set({ [key]: value }, () => {
+        chrome.storage.local.set({[key]: value}, () => {
             resolve(value);
         });
     })
 }
+
 async function fetchRemoteTag(tag) {
     // let url = `https://stackoverflow.com/oauth/dialog?client_id=18550&scope=no_expiry&redirect_uri=https://stackoverflow.com/jobs?sort=y`;
     const accessToken = secrets.accessToken || '';
@@ -64,10 +66,11 @@ const start = async () => {
             const result = await getLocal([`tag-${tag}`]);
 
             if (result[`tag-${tag}`]) {
-                data.tags.push(result[`tag-${tag}`].replace('tag-',''));
-            } else {
-                data.tags.push(tag);
+                data.tags.push(result[`tag-${tag}`].replace('tag-', ''));
             }
+            // else {
+            data.tags.push(tag); // Keeping both tags
+            // }
             //break;//////////
         }
 
