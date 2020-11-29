@@ -1,4 +1,5 @@
 import secrets from '../secrets.development'
+import manualTagSynonyms from './manual-tag-synonyms.js'
 
 console.log('SOJobs ...');
 
@@ -27,8 +28,7 @@ async function fetchRemoteTag(tag) {
 
     try {
         const synonymsResponse = await fetch(url);
-        const synonyms = await synonymsResponse.json();
-        return synonyms;
+        return  await synonymsResponse.json();
     } catch (err) {
         console.error(err);
         return false;
@@ -39,7 +39,8 @@ const refreshSynonyms = async (tag) => {
     const result = await getLocal([`tag-${tag}`]);
 
     if (!result[`tag-${tag}`]) {
-        const synonyms = await fetchRemoteTag(tag)
+        let synonyms = await fetchRemoteTag(tag);
+        synonyms = {...manualTagSynonyms, ...synonyms};
         if (synonyms) {
             for (const element of synonyms.items) {
                 await setLocal(`tag-${element.from_tag}`, tag);
