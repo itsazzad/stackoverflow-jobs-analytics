@@ -60,7 +60,7 @@ const start = async () => {
         item.querySelectorAll('h3 > span:first-child').forEach((tag) => {
             data.company = tag.innerText.trim();
         });
-        const postTags = item.querySelectorAll('div > .post-tag');
+        const postTags = item.querySelectorAll('div > .s-tag');
         for (let tag of postTags) {
             tag = tag.innerText.trim();
             await refreshSynonyms(tag);
@@ -85,7 +85,7 @@ const start = async () => {
 const processData = async () => {
     const obj = await getLocal(null);
     // const allKeys = Object.keys(obj);
-    console.log(obj);
+    console.log(1, obj);
 
     const tagsByCompany = {};
     for (const prop in obj) {
@@ -93,7 +93,6 @@ const processData = async () => {
             // console.log(prop, obj);
             try {
                 const data = JSON.parse(obj[prop]);
-                // console.log(prop, data);
                 data.tags.forEach(tag => {
                     if (data.company in tagsByCompany) {
                         if (tag in tagsByCompany[data.company]) {
@@ -103,6 +102,7 @@ const processData = async () => {
                         }
                     } else {
                         tagsByCompany[data.company] = {};
+                        tagsByCompany[data.company][tag] = 1;
                     }
                 });
             } catch (e) {
@@ -110,7 +110,7 @@ const processData = async () => {
             }
         }
     }
-    console.log(tagsByCompany);
+    console.log(2, tagsByCompany);
     processCompanyForTags(tagsByCompany);
 };
 
@@ -136,13 +136,16 @@ const processCompanyForTags = (data) => {
     const output = Object.entries(countByTags).sort(
         (a, b) => b[1] - a[1]
     );
-    console.log(output);
+    console.log(3, output);
 
     const objSorted = {};
+    let sortedText = "\n";
     output.forEach(item => {
-        objSorted[item[0]] = item[1]
+        objSorted[item[0]] = item[1];
+        sortedText+=`${item[0]}\t${item[1]}\n`;
     });
-    console.log(objSorted);
+    console.log(4, sortedText);
+    console.log(5, objSorted);
 
     let objCopied = JSON.parse(JSON.stringify(objSorted));
 
