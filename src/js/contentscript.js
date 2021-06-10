@@ -164,7 +164,6 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
     if (request.greeting === 'hello') {
         // if (typeof request.pg === 'undefined' || request.pg === '1' || request.pg === '' || request.pg === null) {
         // chrome.storage.local.clear();
-        // chrome.storage.sync.clear();
         const obj = await getLocal(null);
         for (const prop in obj) {
             if (obj.hasOwnProperty(prop)) {
